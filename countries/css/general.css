@@ -16,8 +16,3 @@ body{
         padding: 16px;
     } 
 }
-@media (max-width: 320px) {
-    body{
-        padding: 16px;
-    } 
-}
