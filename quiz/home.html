@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Time</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="quiz-container">
+    <div id="start-screen" class="start-screen">
+      <h1>Quiz Time</h1>
+      <button id="start-btn">Start Now >>></button>
+    </div>
+
+    <div id="quiz-screen" class="quiz-screen hidden">
+      <div class="quiz-header">
+        <span id="question-number">01/25</span>
+        <span id="timer">00:30</span>
+      </div>
+      <h2 id="question-text">Question goes here</h2>
+      <div id="options-container"></div>
+      <button id="next-btn" class="hidden">Next ></button>
+    </div>
+
+    <div id="result-screen" class="result-screen hidden">
+      <h1>Result</h1>
+      <div class="score-bar">
+        <span id="score-text">22/25</span>
+      </div>
+      <p>“Keep learning, you have a good score!”</p>
+      <button id="retry-btn">↻ Retry</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
