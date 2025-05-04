@@ -1,4 +1,5 @@
 import { cart, addToCart, noOfCartItems } from "../data/cart.js";
+import { products } from "../data/products.js";
 let productsHTML = "";
 renderAmazonPage();
 addToCart();
@@ -25,7 +26,7 @@ function renderAmazonPage() {
         </div>
   
         <div class="product-price">
-          ₹ ${(product.pricePaise / 100).toFixed(2)}
+          $ ${(product.priceCents / 100).toFixed(2)}
         </div>
   
         <div class="product-quantity-container">
