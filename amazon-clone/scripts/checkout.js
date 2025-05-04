@@ -1,13 +1,16 @@
 import { cart } from "../data/cart.js";
 import { products } from "../data/products.js";
-console.log(cart);
-let innerHtml;
-cart.forEach((cartitem) => {
-  products.forEach((product) => {
-    if (product.id === cartitem.id) {
-      innerHtml =
-        innerHtml +
-        ` <div class="cart-item-container">
+
+renderCheckOutPage();
+
+function renderCheckOutPage() {
+  let innerHtml;
+  cart.forEach((cartitem) => {
+    products.forEach((product) => {
+      if (product.id === cartitem.id) {
+        innerHtml =
+          innerHtml +
+          ` <div class="cart-item-container">
             <div class="delivery-date">Delivery date: Tuesday, June 21</div>
 
             <div class="cart-item-details-grid">
@@ -77,7 +80,8 @@ cart.forEach((cartitem) => {
               </div>
             </div>
           </div>`;
-    }
+      }
+    });
   });
-});
-document.querySelector(".js-order-summary").innerHTML = innerHtml;
+  document.querySelector(".js-order-summary").innerHTML = innerHtml;
+}
