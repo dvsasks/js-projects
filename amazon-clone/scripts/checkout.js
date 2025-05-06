@@ -1,20 +1,22 @@
-import { cart } from "../data/cart.js";
+import { cart, removeCartItem } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { moneyFormatting } from "../utils/money.js";
 
 renderCheckOutPage();
 
 function renderCheckOutPage() {
-
-  let cartItemsInnerHtml;
+  let productsLookUp = products.reduce((acc, product) => {
+    acc[product.id] = product;
+    return acc;
+  }, {});
+  let cartItemsInnerHtml = "";
   cart.forEach((cartitem) => {
-    products.forEach((product) => {
-      if (product.id === cartitem.id) {
-        cartItemsInnerHtml =
-          cartItemsInnerHtml +
-          `<div class="cart-item-container js-cart-item-container">        <div class="delivery-date">Delivery date: Tuesday, June 21</div>
-
-            <div class="cart-item-details-grid">
+    const product = productsLookUp[cartitem.productId];
+    if (product.id === cartitem.productId) {
+      cartItemsInnerHtml =
+        cartItemsInnerHtml.concat(`<div class="cart-item-container js-cart-item-container">    
+              <div class="delivery-date">Delivery date: Tuesday, June 21</div>
+              <div class="cart-item-details-grid">
               <img
                 class="product-image"
                 src=${product.image}
@@ -31,15 +33,19 @@ function renderCheckOutPage() {
                   <span> Quantity: <span class="quantity-label">${
                     cartitem.quantity
                   }</span> </span>
-                  <span class="update-quantity-link link-primary">
+                  <span data-product-id=${
+                    product.id
+                  } class="update-quantity-link link-primary js-update-quantity">
                     Update
                   </span>
-                  <span class="delete-quantity-link link-primary">
+                  <span data-product-id=${
+                    product.id
+                  } class="delete-quantity-link link-primary js-delete-quantity">
                     Delete
                   </span>
                 </div>
               </div>
-              
+
               <div class="delivery-options">
                 <div class="delivery-options-title">
                   Choose a delivery option:
@@ -47,18 +53,25 @@ function renderCheckOutPage() {
                     ${generateOptions(product.id)}
                 </div>
             </div>
-          </div>;`;
-      }
+          </div>;`);
+    }
+  });
+  document.querySelector(".js-order-summary").innerHTML = cartItemsInnerHtml;
+  generatePaymentSummary();
+  bindEventListners();
+}
+function bindEventListners() {
+  document.querySelectorAll(".js-delete-quantity").forEach((button) => {
+    console.log(button);
+    button.addEventListener("click", (event) => {
+      removeCartItem(event.target.dataset.productId);
+      renderCheckOutPage();
     });
   });
-
-  generatePaymentSummary();
-  document.querySelector(".js-order-summary").innerHTML = cartItemsInnerHtml;
   document.querySelectorAll(".delivery-option-input").forEach((radio) => {
     radio.addEventListener("change", (event) => generatePaymentSummary());
   });
 }
-
 function generateOptions(productId) {
   let optionString = "";
   let optionsArray = [
@@ -103,7 +116,7 @@ function generatePaymentSummary() {
   });
   cart.forEach((cartItem) => {
     products.forEach((product) => {
-      if (product.id === cartItem.id) {
+      if (product.id === cartItem.productId) {
         totalItemPrice =
           product.priceCents * cartItem.quantity + totalItemPrice;
       }
