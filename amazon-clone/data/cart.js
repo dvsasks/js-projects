@@ -15,6 +15,10 @@ export function addToCart() {
   document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     button.addEventListener("click", () => {
       const productId = button.dataset.productId;
+      const selectCloset = button.closest(".product-container");
+      const quantities = selectCloset.querySelector(
+        ".js-select-product-quantity"
+      ).value;
       let matchedItem;
       cart.forEach((cartItem) => {
         if (cartItem.productId === productId) {
@@ -22,11 +26,11 @@ export function addToCart() {
         }
       });
       if (matchedItem) {
-        matchedItem.quantity = matchedItem.quantity + 1;
+        matchedItem.quantity = matchedItem.quantity + Number(quantities);
       } else {
         cart.push({
           productId: productId,
-          quantity: 1,
+          quantity: Number(quantities),
         });
       }
       /* for updating cart bage in amazon homepage */
