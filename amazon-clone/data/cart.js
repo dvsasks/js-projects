@@ -48,3 +48,12 @@ export function removeCartItem(productId) {
   cart = cart.filter((cartItem) => cartItem.productId !== productId);
   window.localStorage.setItem("cart", JSON.stringify(cart));
 }
+
+export function modifyCart(productId, quantity) {
+  cart = cart.map((cartItem) => {
+    if (productId === cartItem.productId) {
+      cartItem.quantity = quantity;
+    }
+    return cartItem;
+  });
+}

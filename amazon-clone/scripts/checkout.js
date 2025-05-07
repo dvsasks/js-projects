@@ -1,4 +1,4 @@
-import { cart, removeCartItem } from "../data/cart.js";
+import { cart, removeCartItem, modifyCart } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { moneyFormatting } from "../utils/money.js";
 
@@ -38,6 +38,15 @@ function renderCheckOutPage() {
                   } class="update-quantity-link link-primary js-update-quantity">
                     Update
                   </span>
+                  <span class='new-quantity'  hidden>
+                    <input class='new-quantity-input' type='number' value=${
+                      cartitem.quantity
+                    }>
+                    <span class='update-quantity-link link-primary js-save-new-quantity'
+                    data-product-id=${product.id}
+                    >save
+                    </span>
+                    </span>
                   <span data-product-id=${
                     product.id
                   } class="delete-quantity-link link-primary js-delete-quantity">
@@ -62,9 +71,26 @@ function renderCheckOutPage() {
 }
 function bindEventListners() {
   document.querySelectorAll(".js-delete-quantity").forEach((button) => {
-    console.log(button);
     button.addEventListener("click", (event) => {
       removeCartItem(event.target.dataset.productId);
+      renderCheckOutPage();
+    });
+  });
+  document.querySelectorAll(".js-update-quantity").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      const updatecloset = button.closest(".product-quantity");
+      updatecloset.querySelector(".new-quantity").hidden = false;
+      updatecloset.querySelector(".quantity-label").hidden = true;
+      button.hidden = true;
+    });
+  });
+  document.querySelectorAll(".js-save-new-quantity").forEach((saveButton) => {
+    saveButton.addEventListener("click", (event) => {
+      modifyCart(
+        event.target.dataset.productId,
+        saveButton.closest(".new-quantity").querySelector(".new-quantity-input")
+          .value
+      );
       renderCheckOutPage();
     });
   });
