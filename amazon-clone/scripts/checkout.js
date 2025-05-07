@@ -1,4 +1,9 @@
-import { cart, removeCartItem, modifyCart } from "../data/cart.js";
+import {
+  cart,
+  removeCartItem,
+  modifyCart,
+  noOfCartItems,
+} from "../data/cart.js";
 import { products } from "../data/products.js";
 import { moneyFormatting } from "../utils/money.js";
 
@@ -66,6 +71,9 @@ function renderCheckOutPage() {
     }
   });
   document.querySelector(".js-order-summary").innerHTML = cartItemsInnerHtml;
+  document.querySelector(".js-return-to-home-link").innerHTML = Number(
+    noOfCartItems()
+  );
   generatePaymentSummary();
   bindEventListners();
 }
